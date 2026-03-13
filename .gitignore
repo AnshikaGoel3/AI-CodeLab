@@ -1,0 +1,25 @@
+# node
+node_modules
+dist
+build
+
+# logs
+*.log
+
+# environment
+.env
+
+# java
+target/
+*.class
+
+# vscode
+.vscode/
+
+# system
+.DS_Store
+
+.env
+.env.production
+node_modules/
+dist/

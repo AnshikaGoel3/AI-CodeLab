@@ -1,0 +1,36 @@
+:root {
+  --bg-deep: #050609;
+  --accent-primary: #6366f1;
+  --accent-secondary: #22c55e;
+  --text-main: #f1f5f9;
+  --text-muted: #64748b;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #050609;
+  /* Removed the global purple radial gradients — 
+     each page manages its own background so they don't compound */
+  color: var(--text-main);
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Remove Vite default root constraints */
+#root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
