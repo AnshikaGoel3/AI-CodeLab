@@ -17,12 +17,13 @@ import CodeIcon from "@mui/icons-material/Code";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { logout } from "../services/authService";
 import { getProblems } from "../services/problemService";
-import api from "../services/api";
+import { getMySubmissions } from "../services/submissionService";
 
 function getAcceptedSlugs() {
   try {
+    const username = localStorage.getItem("username") || "anonymous";
     return new Set(
-      JSON.parse(localStorage.getItem("accepted_problems") || "[]"),
+      JSON.parse(localStorage.getItem(`accepted_problems_${username}`) || "[]"),
     );
   } catch {
     return new Set();
@@ -45,17 +46,13 @@ export default function ProfilePage() {
   const acceptedSlugs = getAcceptedSlugs();
 
   useEffect(() => {
-    Promise.all([
-      getProblems(),
-      api
-        .get("/submissions/all")
-        .then((r) => r.data)
-        .catch(() => []),
-    ]).then(([probs, subs]) => {
-      setProblems(probs);
-      setSubmissions(subs);
-      setLoading(false);
-    });
+    Promise.all([getProblems(), getMySubmissions().catch(() => [])]).then(
+      ([probs, subs]) => {
+        setProblems(probs);
+        setSubmissions(subs);
+        setLoading(false);
+      },
+    );
   }, []);
 
   const solved = problems.filter((p) => acceptedSlugs.has(p.slug));

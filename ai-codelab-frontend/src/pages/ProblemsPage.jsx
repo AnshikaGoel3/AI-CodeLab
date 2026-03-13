@@ -23,17 +23,20 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 
+function storageKey() {
+  const username = localStorage.getItem("username") || "anonymous";
+  return `accepted_problems_${username}`;
+}
+
 export function markAccepted(slug) {
   const accepted = getAcceptedSlugs();
   accepted.add(slug);
-  localStorage.setItem("accepted_problems", JSON.stringify([...accepted]));
+  localStorage.setItem(storageKey(), JSON.stringify([...accepted]));
 }
 
 function getAcceptedSlugs() {
   try {
-    return new Set(
-      JSON.parse(localStorage.getItem("accepted_problems") || "[]"),
-    );
+    return new Set(JSON.parse(localStorage.getItem(storageKey()) || "[]"));
   } catch {
     return new Set();
   }

@@ -103,12 +103,13 @@ public class CodeExecutionService {
 
         Submission sub = new Submission();
         sub.setProblemSlug(slug);
-        sub.setCode(request.getSourceCode()); 
+        sub.setCode(request.getSourceCode());
         sub.setLanguageId(request.getLanguageId());
         sub.setStatus(status);
         sub.setPassed(passed);
         sub.setTotal(testCases.size());
         sub.setCreatedAt(new Date());
+        sub.setUsername(request.getUsername() != null ? request.getUsername() : "anonymous");
         submissionRepository.save(sub);
 
         Map<String, Object> response = new HashMap<>();
