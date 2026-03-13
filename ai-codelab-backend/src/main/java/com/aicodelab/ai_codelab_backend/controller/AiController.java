@@ -6,7 +6,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/ai")
-@CrossOrigin
+
 public class AiController {
 
     private final AIService aiService;

@@ -7,7 +7,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
+
 public class LanguageController {
 
     @GetMapping("/languages")

@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
+
 public class SubmissionController {
 
     private final SubmissionRepository submissionRepository;
