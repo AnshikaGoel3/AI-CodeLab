@@ -6,7 +6,6 @@ import com.aicodelab.ai_codelab_backend.model.Submission;
 import com.aicodelab.ai_codelab_backend.model.TestCase;
 import com.aicodelab.ai_codelab_backend.repository.ProblemRepository;
 import com.aicodelab.ai_codelab_backend.repository.SubmissionRepository;
-import com.aicodelab.ai_codelab_backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,16 +16,13 @@ public class CodeExecutionService {
     private final ProblemRepository problemRepository;
     private final Judge0Service judge0Service;
     private final SubmissionRepository submissionRepository;
-    private final UserRepository userRepository;
 
     public CodeExecutionService(ProblemRepository problemRepository,
                                 Judge0Service judge0Service,
-                                SubmissionRepository submissionRepository,
-                                UserRepository userRepository) {
+                                SubmissionRepository submissionRepository) {
         this.problemRepository = problemRepository;
         this.judge0Service = judge0Service;
         this.submissionRepository = submissionRepository;
-        this.userRepository = userRepository;
     }
 
     private static String langKey(int langId) {
@@ -41,8 +37,32 @@ public class CodeExecutionService {
     private String injectPreamble(Problem problem, String userCode, int langId) {
         Map<String, String> preambleMap = problem.getPreamble();
         if (preambleMap == null) return userCode;
-        String preamble = preambleMap.get(langKey(langId));
+        String key      = langKey(langId);
+        String preamble = preambleMap.get(key);
         if (preamble == null || preamble.isBlank()) return userCode;
+
+        // Python and JavaScript execute top-to-bottom at module level.
+        // The call line (print/console.log) must come AFTER the user's
+        // solve() definition, so we split the preamble at the call line
+        // and sandwich the user code in between.
+        if (key.equals("python")) {
+            int idx = preamble.lastIndexOf("\nprint(solve(");
+            if (idx >= 0) {
+                String setup = preamble.substring(0, idx);
+                String call  = preamble.substring(idx);
+                return setup + "\n" + userCode + call;
+            }
+        } else if (key.equals("javascript")) {
+            int idx = preamble.lastIndexOf("\nconsole.log(solve(");
+            if (idx >= 0) {
+                String setup = preamble.substring(0, idx);
+                String call  = preamble.substring(idx);
+                return setup + "\n" + userCode + call;
+            }
+        }
+
+        // Java and C++: compiler resolves method calls at compile time,
+        // so preamble (containing main) + userCode (containing solve) is fine.
         return preamble + "\n" + userCode;
     }
 
