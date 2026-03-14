@@ -1,10 +1,7 @@
 package com.aicodelab.ai_codelab_backend.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,79 +10,37 @@ public class User {
 
     @Id
     private String id;
-
     private String username;
-    
-    @Indexed(unique = true)
     private String email;
-
     private String password;
-
-    private LocalDateTime createdAt;
-
-    private List<String> solvedProblems = new ArrayList<>();
-
+    private List<String> solvedSlugs = new ArrayList<>(); // ← persists solved problems
 
     public User() {}
 
     public User(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.createdAt = LocalDateTime.now();
+        this.username  = username;
+        this.email     = email;
+        this.password  = password;
+        this.solvedSlugs = new ArrayList<>();
     }
 
+    public String getId()                        { return id; }
+    public void setId(String id)                 { this.id = id; }
 
-    public String getId() {
-        return id;
-    }
+    public String getUsername()                  { return username; }
+    public void setUsername(String username)     { this.username = username; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public String getEmail()                     { return email; }
+    public void setEmail(String email)           { this.email = email; }
 
+    public String getPassword()                  { return password; }
+    public void setPassword(String password)     { this.password = password; }
 
-    public String getUsername() {
-        return username;
-    }
+    public List<String> getSolvedSlugs()                      { return solvedSlugs; }
+    public void setSolvedSlugs(List<String> solvedSlugs)      { this.solvedSlugs = solvedSlugs; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-
-    public List<String> getSolvedProblems() {
-        return solvedProblems;
-    }
-
-    public void setSolvedProblems(List<String> solvedProblems) {
-        this.solvedProblems = solvedProblems;
+    public void addSolvedSlug(String slug) {
+        if (solvedSlugs == null) solvedSlugs = new ArrayList<>();
+        if (!solvedSlugs.contains(slug)) solvedSlugs.add(slug);
     }
 }

@@ -6,6 +6,7 @@ import com.aicodelab.ai_codelab_backend.model.Submission;
 import com.aicodelab.ai_codelab_backend.model.TestCase;
 import com.aicodelab.ai_codelab_backend.repository.ProblemRepository;
 import com.aicodelab.ai_codelab_backend.repository.SubmissionRepository;
+import com.aicodelab.ai_codelab_backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,13 +17,16 @@ public class CodeExecutionService {
     private final ProblemRepository problemRepository;
     private final Judge0Service judge0Service;
     private final SubmissionRepository submissionRepository;
+    private final UserRepository userRepository;
 
     public CodeExecutionService(ProblemRepository problemRepository,
                                 Judge0Service judge0Service,
-                                SubmissionRepository submissionRepository) {
+                                SubmissionRepository submissionRepository,
+                                UserRepository userRepository) {
         this.problemRepository = problemRepository;
         this.judge0Service = judge0Service;
         this.submissionRepository = submissionRepository;
+        this.userRepository = userRepository;
     }
 
     private static String langKey(int langId) {
@@ -103,13 +107,12 @@ public class CodeExecutionService {
 
         Submission sub = new Submission();
         sub.setProblemSlug(slug);
-        sub.setCode(request.getSourceCode());
+        sub.setCode(request.getSourceCode()); 
         sub.setLanguageId(request.getLanguageId());
         sub.setStatus(status);
         sub.setPassed(passed);
         sub.setTotal(testCases.size());
         sub.setCreatedAt(new Date());
-        sub.setUsername(request.getUsername() != null ? request.getUsername() : "anonymous");
         submissionRepository.save(sub);
 
         Map<String, Object> response = new HashMap<>();
