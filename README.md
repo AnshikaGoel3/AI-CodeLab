@@ -1,4 +1,4 @@
-# 🧠 AI-CodeLab
+#  AI-CodeLab
 
 An AI-powered coding practice platform — solve DSA problems, get hints, debug your code, and analyze complexity, all in one place.
 
@@ -6,23 +6,23 @@ An AI-powered coding practice platform — solve DSA problems, get hints, debug 
 
 ---
 
-## ✨ Features
+##  Features
 
-- 📚 **616 DSA problems** across Easy, Medium, and Hard difficulty
-- 💻 **In-browser code editor** with syntax highlighting (Monaco Editor)
-- 🌐 **4 languages** — Python, JavaScript, Java, C++
-- ▶️ **Run & Submit** — real code execution via Judge0
-- 🤖 **AI Agent** powered by Groq (llama-3.3-70b)
-  - 💡 Hints — progressive nudges without spoiling the answer
-  - 🐛 Debug — analyzes your actual code against the failed test case
-  - ✅ Solution — full solution with dry run on the example test case
-  - 📊 Complexity — time/space analysis of your submitted code
-- 👤 **Profile page** — solved count, difficulty breakdown, recent activity
-- 🔐 **JWT authentication** — register and login
+-  **616 DSA problems** across Easy, Medium, and Hard difficulty
+-  **In-browser code editor** with syntax highlighting (Monaco Editor)
+-  **4 languages** — Python, JavaScript, Java, C++
+-  **Run & Submit** — real code execution via Judge0
+-  **AI Agent** powered by Groq (llama-3.3-70b)
+  -  Hints — progressive nudges without spoiling the answer
+  -  Debug — analyzes your actual code against the failed test case
+  -  Solution — full solution with dry run on the example test case
+  -  Complexity — time/space analysis of your submitted code
+-  **Profile page** — solved count, difficulty breakdown, recent activity
+-  **JWT authentication** — register and login
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -39,7 +39,7 @@ An AI-powered coding practice platform — solve DSA problems, get hints, debug 
 
 ---
 
-## 🚀 Running Locally
+##  Running Locally
 
 ### Prerequisites
 - Node.js 18+
@@ -90,7 +90,7 @@ npm run dev
 
 ---
 
-## 🔑 Environment Variables
+##  Environment Variables
 
 ### Backend (`.env` in `ai-codelab-backend/`)
 
@@ -109,7 +109,7 @@ npm run dev
 
 ---
 
-## 🌍 Deployment
+##  Deployment
 
 | Service | Platform | URL |
 |---|---|---|
@@ -128,7 +128,7 @@ npm run dev
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
 <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/d37b15c1-cf9b-4dec-ba1b-621a849262a6" />
 <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/de424464-11eb-41d4-98cc-af5f00e95989" />
@@ -140,7 +140,7 @@ npm run dev
 
 ---
 
-## 🧩 How the Code Execution Works
+##  How the Code Execution Works
 
 User code goes through a **preamble injection** system:
 
