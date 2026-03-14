@@ -68,28 +68,40 @@ public class CodeExecutionService {
 
 
     public Map<String, Object> runCode(String slug, RunCodeRequest request) {
+
         Problem problem = problemRepository.findBySlug(slug).orElse(null);
 
-        String usedInput    = request.getStdin();
-        String expectedOut  = "";
+        String usedInput = request.getStdin();
+        String expectedOut = "";
 
         if (problem != null) {
-            // Use TC1 input if no custom stdin provided
+
             if ((usedInput == null || usedInput.isBlank()) && !problem.getTestCases().isEmpty()) {
-                usedInput   = problem.getTestCases().get(0).getInput();
-                expectedOut = problem.getTestCases().get(0).getExpected_output();
+
+                TestCase tc = problem.getTestCases().get(0);
+
+                try {
+                    usedInput = new com.fasterxml.jackson.databind.ObjectMapper()
+                            .writeValueAsString(tc.getInput());
+                } catch (Exception e) {
+                    usedInput = tc.getInput().toString();
+                }
+
+                expectedOut = tc.getExpected_output();
             }
+
             String fullCode = injectPreamble(problem, request.getSourceCode(), request.getLanguageId());
             request.setSourceCode(fullCode);
         }
 
         request.setStdin(usedInput != null ? usedInput : "");
+
         Map result = judge0Service.runCode(request);
 
-        // Add input + expected to the response so the frontend can display them
         Map<String, Object> response = new HashMap<>(result);
-        response.put("usedInput",    usedInput != null ? usedInput : "");
+        response.put("usedInput", usedInput != null ? usedInput : "");
         response.put("expectedOutput", expectedOut);
+
         return response;
     }
 
@@ -106,7 +118,15 @@ public class CodeExecutionService {
             RunCodeRequest req = new RunCodeRequest();
             req.setSourceCode(fullCode);
             req.setLanguageId(request.getLanguageId());
-            req.setStdin(test.getInput());
+            try {
+                String jsonInput = new com.fasterxml.jackson.databind.ObjectMapper()
+                        .writeValueAsString(test.getInput());
+
+                req.setStdin(jsonInput);
+
+            } catch (Exception e) {
+                req.setStdin(test.getInput().toString());
+            }
 
             Map result = judge0Service.runCode(req);
 

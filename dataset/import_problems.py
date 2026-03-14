@@ -276,7 +276,7 @@ for _, row in df.iterrows():
     norm_tcs = []
     for tc in test_cases:
         norm_tcs.append({
-            "input":           json.dumps(tc["input"]) if isinstance(tc["input"], dict) else str(tc["input"]),
+            "input": tc["input"],     # store as JSON object
             "expected_output": str(tc.get("expected_output", tc.get("output", "")))
         })
 

@@ -22,9 +22,12 @@ public class Judge0Service {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         Map<String, Object> body = new HashMap<>();
+
         body.put("source_code", request.getSourceCode());
         body.put("language_id", request.getLanguageId());
         body.put("stdin", request.getStdin());
+
+        body.put("redirect_stderr_to_stdout", true);
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
 
